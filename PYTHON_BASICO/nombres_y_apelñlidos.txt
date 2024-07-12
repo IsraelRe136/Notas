@@ -1,0 +1,13 @@
+los datos son: 
+nombre lucas 
+ Apellido: dqalto 
+----------
+nombre matias 
+ Apellido: sin 
+----------
+nombre fer 
+ Apellido: cxarlols 
+----------
+nombre sopfia 
+ Apellido: domingues 
+----------

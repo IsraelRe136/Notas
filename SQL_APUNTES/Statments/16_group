@@ -1,0 +1,5 @@
+SELECT  max(age)  from users group by age 
+
+SELECT  count(age)  from users group by age 
+
+SELECT  count(age),age  from users where age>15 group by age  order by age asc

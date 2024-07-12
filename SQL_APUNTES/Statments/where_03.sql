@@ -1,0 +1,1 @@
+SELECT distinct * FROM  users where age=23;

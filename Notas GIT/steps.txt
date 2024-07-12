@@ -1,0 +1,122 @@
+$ code . abr evisual studio con la carpeta selecionada
+
+
+$  cd d: //para ir a la carpeta d
+$  cd CURSOS
+$ mkdir repo // crea carpeta
+$ git init
+$ git add apunte.txt
+$ git status
+$ git commit -m"agregando dos archivos"
+$ git commit
+$ gir commit -a // se salta la preparacion
+$ rm nuevito.txt  //borrar
+$ git add nuevito.txt //para terminar de eliminar
+
+$ git checkout carro.txt / te dvuelve el ultmo archivo guardado
+$ git reset --hard
+$ git mv dalto.txt archivo2.txt //cambiar de nombre
+
+$git status -s //
+$ git diff --staged //para ver diferencia d versiones 
+
+$ git log --oneline -- version simplificada
+$ git diff 8b3f425 4eb0978 //comparacion
+
+$ git commit --amend  //para cambiar la descripccion o remplaza lo que tienes en el ultimo commit por 
+lo que esta en el area de trabajo
+
+
+
+$ git reset --soft 3923354
+// se elimina el penultimo comit el de abo de head el puntero un commit atras 
+// lo mando a la zona de satation
+
+$ git reset --soft head~1 //posioiono uno atras del head o si quieres mas
+
+/////////// --hard 
+
+$ git reset --hard 24e2e08 
+
+
+////////////////////////RAMAS///////////////////////
+
+$ git branch  // te muestra las ramas creadas
+$ git branch modificar-dev/ genero una nueva rama
+
+$ git checkout modificar-dev  // nos movemos a la rama tambein funciona con switch
+Switched to branch 'modificar-dev'
+
+$ git switch -c rama-creada-temporal  // crea y me mueve a la rama
+
+$ git branch -d rama-creada-temporal //elminar rama
+
+$ git branch -m modificar-dev modificar-texto //modifica el nombre de la rama solo lo hace si estas en una rama distinta
+
+$ git branch -m cambiar-texto// mofiucar el nombre en la misma rama 
+
+////FUCIONAR RAMAS
+$ git merge optimize-sum-function //fucionar, tienes que estar en la rama master$ git reset --hard 54f981a
+$ git reset --hard 54f981a // devuelve el estado anterior 
+
+$ git log --oneline --all //para que muestre todos los commits
+
+
+$ git ls-tree -r --name-only 38d5115     //para ver los archivos gurdados
+codigo.py
+
+$ git ls-tree  depues $git ls  //y se ven lor achivos
+
+$ git reset --hard HEAD~1 // ELIMINA EL ULTIMO commit
+
+git log --oneline --all --graph //grafica las rama s
+
+------par ignorar---------- creamos un archivo .gitignore y ahi ponemos todo s los arhcivos a ignorar
+#vamos ignorar el archivo
+ignora.txt
+*.txt
+!readme.txt  ahi no ignora ese archivo pero si los demas txt
+/fotos ignora dentro de toda la capeta fotos
+
+$ git config --global core.excludesfile D:/.gitgnore_global  //agregamos la carpeta al global de giignore
+
+
+-///////////tips crear atajos
+$ git config --global alias.log-mejorado "log --oneline --graph --all --pretty=format:'%c(auto)%h%d %s %c(black)%c(bold)%cr'"
+
+/////////regresar un comit eliminad
+git reset --hard 19379 es el numero del commit a regresar 
+// que passa si perdemos la referencia no la tenmso a la mando
+
+gir reflog  
+
+////////// GIT HUB///////////
+                GIT CLONE 
+                $ git clone https://github.com/IsraelRe136/ejemplo1_repo.git
+
+
+                ls //para saber el nombre del repositorio
+                ejemplo1_repo/
+
+                resen@israel MINGW64 /d/CURSOS/repo-remoto
+                $ cd ejemplo1_repo
+
+                GIT PUSH
+                $ git push origin master
+
+                GIT PULLL
+                $ git pull // acualiza loq eu hicieron en el repo 
+
+                GIT FETCH
+                $ git fetch
+
+                se bajan los cambios pero lo hace en una rqama, para ver los cambios
+                tienes que cambiarte a la rama 
+                $ git switch --detach origin/master
+
+                $ git switch master
+                y depues git pull para dejar los cvambios 
+                
+
+
+

@@ -1,0 +1,196 @@
+"10.10 Modifique el ciclo del problema 10.4 para tener una eficiencia del compresor isentr pico de 80% y deje que la temperatura del l quido que sale del condensador sea 32 C. Determine, para el ciclo modificado,"
+
+"Hechos"
+P[1] = 160 [kPa]
+x[1]= 1
+
+s_2s = s[1]
+P[2] = P[3]
+
+T[3] = 32 [C]
+x[3]= 0
+
+P[4] = P[1]
+h[4] = h[3]
+
+eta = 0.8 
+m = 0.08333[kg/s] "5 [kg/min]"
+
+"Estado Termodin mico 1 - entrada al compresor, por lo menos V.S" 
+h[1]=enthalpy(r134a, P=P[1], x=x[1])
+s[1]=entropy(r134a, P=P[1], x=x[1])
+T[1]=temperature(r134a,P=P[1], x=x[1])
+
+"Estado Termodin mico 2 - salida del compresor isentropico " 
+h_2s=enthalpy(r134a, P=P[2], s=s_2s)
+h[2] = ((h_2s - h[1]) / eta) + h[1]
+s[2]=entropy(r134a, P=P[2],  h=h[2])
+T[2]=temperature(r134a, P=P[2], h=h[2])
+
+"Estado Termodin mico 3 - salida del condensador, por lo menos L.S"
+h[3]=enthalpy(r134a, T=T[3], x=x[3])
+s[3]=entropy(r134a,  T=T[3], x=x[3])
+P[3]=pressure(r134a, T=T[3], x=x[3]) 
+
+"Estado Termodin mico 4 - Salida de la valvula de expansi n" 
+s[4]=entropy(r134a, P=P[4], h=h[4])
+T[4]=temperature(r134a, P=P[4], h=h[4])
+
+"a) La potencia del compresor"   
+
+"W_c + m*(h[1]-h[2])"  
+W_c =  m*(h[2]-h[1])  
+
+"b) Capacidad de refrigeraci n en toneladas "
+
+"Q_in + m*(h[4]-h[1])"
+Q_in =  m*(h[1]-h[4])
+Q_inT = Q_in/3.5168545253126
+
+"c) Coeficiente de rendimiento"
+
+beta = Q_in/W_c 
+                         
+"10.10 Modifique el ciclo del problema 10.4 para tener una eficiencia del compresor isentr pico de 80% y deje que la temperatura del l quido que sale del condensador sea 32 C. Determine, para el ciclo modificado,"
+
+"Hechos"
+P[1] = 160 [kPa]
+x[1]= 1
+
+s_2s = s[1]
+P[2] = P[3]
+
+T[3] = 32 [C]
+x[3]= 0
+
+P[4] = P[1]
+h[4] = h[3]
+
+eta = 0.8 
+m = 0.08333[kg/s] "5 [kg/min]"
+
+"Estado Termodin mico 1 - entrada al compresor, por lo menos V.S" 
+h[1]=enthalpy(r134a, P=P[1], x=x[1])
+s[1]=entropy(r134a, P=P[1], x=x[1])
+T[1]=temperature(r134a,P=P[1], x=x[1])
+
+"Estado Termodin mico 2 - salida del compresor isentropico " 
+h_2s=enthalpy(r134a, P=P[2], s=s_2s)
+h[2] = ((h_2s - h[1]) / eta) + h[1]
+s[2]=entropy(r134a, P=P[2],  h=h[2])
+T[2]=temperature(r134a, P=P[2], h=h[2])
+
+"Estado Termodin mico 3 - salida del condensador, por lo menos L.S"
+h[3]=enthalpy(r134a, T=T[3], x=x[3])
+s[3]=entropy(r134a,  T=T[3], x=x[3])
+P[3]=pressure(r134a, T=T[3], x=x[3]) 
+
+"Estado Termodin mico 4 - Salida de la valvula de expansi n" 
+s[4]=entropy(r134a, P=P[4], h=h[4])
+T[4]=temperature(r134a, P=P[4], h=h[4])
+
+"a) La potencia del compresor"   
+
+"W_c + m*(h[1]-h[2])"  
+W_c =  m*(h[2]-h[1])  
+
+"b) Capacidad de refrigeraci n en toneladas "
+
+"Q_in + m*(h[4]-h[1])"
+Q_in =  m*(h[1]-h[4])
+Q_inT = Q_in/3.5168545253126
+
+"c) Coeficiente de rendimiento"
+
+beta = Q_in/W_c 
+                         
+#include <18f4553.h>
+#fuses INTRC, NOWDT, NOPROTECT, NOLVP, PLL1, CPUDIV1
+#use delay (clock = 500k)
+
+void freno();
+void adelante();
+void atras();
+
+void main()
+{
+   setup_timer_2(T2_DIV_BY_16, 156, 1);
+   setup_ccp2(CCP_PWM);
+   setup_ccp1(CCP_PWM);
+   set_pwm1_duty(12);  //  con el valor de 12 aqui son 1.5 ms y masomenos es ir derecho  con 16 gira a la derecha  y con 8 gira a la izquierda
+   set_pwm2_duty(150);//c4 verde y c5 rojo
+   output_high(pin_B5);
+  
+   while(true)
+   {
+      
+      if(input(pin_B0))
+     {
+     
+         while(1)
+         {
+           delay_ms(400);
+           if(input(pin_B0)) //Encontro el cajon de estacionado
+           {
+             while(1)
+             {
+                if(input(pin_B0)==0)  //Encuentra la ultima pared
+                {
+                   freno();
+                   delay_ms(300);
+                   set_pwm1_duty(16);//giro a la derecha
+                   atras();
+                   delay_ms(550);
+                   set_pwm1_duty(8);//giro a la izquierda
+                   delay_ms(500);
+                   set_pwm1_duty(15); // giro leve a la derecha
+                   adelante();
+                   delay_ms(300);
+                   set_pwm1_duty(12); //llantas derechas
+                   output_low(pin_B5);
+                   output_high(pin_B4);
+                   while(1)
+                  {
+                   freno();
+                  } 
+                   
+                }
+                
+                else
+                {
+                }
+             }
+           }
+           
+           else
+           {
+           }
+         }
+     
+     }
+     
+     else 
+     {
+         adelante();
+     }
+      
+   }
+}
+
+void freno()
+{
+   output_low(pin_D3);
+   output_low(pin_D2); 
+}
+
+void adelante()
+{
+   output_high(pin_D3);
+   output_low(pin_D2);
+}
+
+void atras()
+{
+   output_high(pin_D2);
+   output_low(pin_D3);
+}
